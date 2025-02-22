@@ -104,7 +104,7 @@
     
   </head>
   <body>
-    <audio id="audioPlayer" hidden loop autoplay muted>
+    <audio id="audioPlayer" loop autoplay muted>
       <source id="audioSource" src="" type="audio/wav">
     </audio>
     
@@ -298,20 +298,20 @@
       const audioSource = document.getElementById("audioSource");
       audioSource.src = randomFile;
           
-      // Try to play immediately
+      // Only try to play on user interaction
       function playAudio() {
-          audioPlayer.muted = true;  // Start muted
-          audioPlayer.play().then(() => {
-              audioPlayer.muted = false; // Unmute after playing starts
-          }).catch(error => {
-              console.warn("Autoplay blocked, waiting for user interaction...");
-              document.body.addEventListener("click", () => {
-                  audioPlayer.play();
-              }, { once: true });
-          });
-        }
+        audioPlayer.muted = true;  // Start muted
+        audioPlayer.play().then(() => {
+          audioPlayer.muted = false; // Unmute after playing starts
+        }).catch(error => {
+          console.warn("Autoplay blocked, waiting for user interaction...");
+        });
+      }
       
-      playAudio();
+      // Wait for the user to interact with the page
+      document.body.addEventListener("click", () => {
+          playAudio();
+      }, { once: true }); // Play only once per page load
     });
   </script>
   </body>
