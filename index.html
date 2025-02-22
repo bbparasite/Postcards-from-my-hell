@@ -15,7 +15,7 @@
       .container {
         margin: auto;
         position: relative;
-        width: 75%;
+        width: 60%;
       }
 
       img {
@@ -104,6 +104,10 @@
     
   </head>
   <body>
+    <audio id="audioPlayer" hidden loop>
+      <source id="audioSource" src="" type="audio/wav">
+    </audio>
+    
     <!-- Container for the image gallery -->
     <div class="container">
 
@@ -280,6 +284,26 @@
       dots[slideIndex-1].className += " active";
       captionText.innerHTML = dots[slideIndex-1].alt;
     }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      // List of WAV files
+      const audioFiles = ["sounds/animal.wav", "sounds/animal2.wav", "sounds/animal3.wav", "sounds/animal4.wav"];
+          
+      // Select a random file
+      const randomIndex = Math.floor(Math.random() * audioFiles.length);
+      const randomFile = audioFiles[randomIndex];
+  
+      // Set the selected file as the audio source
+      const audioPlayer = document.getElementById("audioPlayer");
+      const audioSource = document.getElementById("audioSource");
+      audioSource.src = randomFile;
+          
+      // Reload and play audio
+      audioPlayer.load();
+      audioPlayer.play().catch(error => {
+      console.warn("Autoplay might be blocked by the browser:", error);
+        });
+    });
   </script>
   </body>
 </html>
