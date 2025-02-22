@@ -287,7 +287,7 @@
 
     document.addEventListener("DOMContentLoaded", function () {
       // List of WAV files
-      const audioFiles = ["sounds/animal.wav", "sounds/animal2.wav", "sounds/animal3.wav", "sounds/animal4.wav"];
+      const audioFiles = ["sounds/animal1.wav", "sounds/animal2.wav", "sounds/animal3.wav", "sounds/animal4.wav"];
           
       // Select a random file
       const randomIndex = Math.floor(Math.random() * audioFiles.length);
@@ -298,11 +298,20 @@
       const audioSource = document.getElementById("audioSource");
       audioSource.src = randomFile;
           
-      // Reload and play audio
-      audioPlayer.load();
-      audioPlayer.play().catch(error => {
-      console.warn("Autoplay might be blocked by the browser:", error);
-        });
+      // Try to play immediately
+      function playAudio() {
+          audioPlayer.muted = true;  // Start muted
+          audioPlayer.play().then(() => {
+              audioPlayer.muted = false; // Unmute after playing starts
+          }).catch(error => {
+              console.warn("Autoplay blocked, waiting for user interaction...");
+              document.body.addEventListener("click", () => {
+                  audioPlayer.play();
+              }, { once: true });
+          });
+        }
+      
+      playAudio();
     });
   </script>
   </body>
