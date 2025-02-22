@@ -104,7 +104,7 @@
     
   </head>
   <body>
-    <audio id="audioPlayer" hidden loop autoplay>
+    <audio id="audioPlayer" hidden loop autoplay muted>
       <source id="audioSource" src="" type="audio/wav">
     </audio>
     
@@ -312,7 +312,6 @@
         }
       
       playAudio();
-      audioElement.play();
     });
   </script>
   </body>
